@@ -11,19 +11,19 @@ import jakarta.persistence.OneToOne;
 public class Invoice {
 	 @Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	    private Long id;
+	    private int id;
 
 	    @OneToOne
-	    @JoinColumn(name = "appointment_id")
+	    @JoinColumn(name = "appointmentId")
 	    private Appointment appointment;
 
 	    private double treatmentCost;
 	    private double tax;
 	    private double totalAmount;
-		public Long getId() {
+		public int getId() {
 			return id;
 		}
-		public void setId(Long id) {
+		public void setId(int id) {
 			this.id = id;
 		}
 		public Appointment getAppointment() {

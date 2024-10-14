@@ -14,19 +14,19 @@ public class Appointment {
 
 	 	@Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	    private Long id;
+	    private int id;
 
 	    @ManyToOne
-	    @JoinColumn(name = "id")
+	    @JoinColumn(name = "patientId")
 	    private Patient patient;
 
 	    private String dermatologist;
 	    private LocalDateTime appointmentDate;
 	    private double registrationFee = 500.00;
-		public Long getId() {
+		public int getId() {
 			return id;
 		}
-		public void setId(Long id) {
+		public void setId(int id) {
 			this.id = id;
 		}
 		public Patient getPatient() {
