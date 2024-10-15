@@ -3,7 +3,7 @@ package com.skincare.api.DTO;
 
 public class TreatmentDTO {
   
-    private Long id;
+    private int id;
 
     private String treatmentName;
     private double price;
@@ -13,17 +13,17 @@ public class TreatmentDTO {
 
 	}
 	
-	public TreatmentDTO(Long id, String treatmentName, double price) {
+	public TreatmentDTO(int id, String treatmentName, double price) {
 		super();
 		this.id = id;
 		this.treatmentName = treatmentName;
 		this.price = price;
 	}
 
-	public Long getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public String getTreatmentName() {

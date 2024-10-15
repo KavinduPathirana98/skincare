@@ -9,7 +9,7 @@ import jakarta.persistence.OneToOne;
 
 @Entity
 public class Invoice {
-	 @Id
+	 	@Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	    private int id;
 

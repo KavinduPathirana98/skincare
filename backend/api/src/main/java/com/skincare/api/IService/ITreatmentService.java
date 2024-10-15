@@ -11,5 +11,5 @@ public interface ITreatmentService {
 	 	TreatmentDTO getTreatmentById(int id);
 	    boolean deleteTreatment(int id);
 	    TreatmentDTO updateTreatment(int id,TreatmentDTO treatmentDTO);
-	    TreatmentDTO addInvoice(TreatmentDTO treatmentDTO);
+	    TreatmentDTO addTreatment(TreatmentDTO treatmentDTO);
 }

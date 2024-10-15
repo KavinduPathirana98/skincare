@@ -3,7 +3,7 @@ package com.skincare.api.DTO;
 
 public class InvoiceDTO {
 
-	    private Long id;
+	    private int id;
 	    private AppointmentDTO appointment;
 	    private double treatmentCost;
 	    private double tax;
@@ -13,7 +13,7 @@ public class InvoiceDTO {
 		public InvoiceDTO() {
 			super();
 		}
-		public InvoiceDTO(Long id, AppointmentDTO appointment, double treatmentCost, double tax, double totalAmount) {
+		public InvoiceDTO(int id, AppointmentDTO appointment, double treatmentCost, double tax, double totalAmount) {
 			super();
 			this.id = id;
 			this.appointment = appointment;
@@ -21,10 +21,10 @@ public class InvoiceDTO {
 			this.tax = tax;
 			this.totalAmount = totalAmount;
 		}
-		public Long getId() {
+		public int getId() {
 			return id;
 		}
-		public void setId(Long id) {
+		public void setId(int id) {
 			this.id = id;
 		}
 		public AppointmentDTO getAppointment() {

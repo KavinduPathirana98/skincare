@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class AppointmentDTO {
 
-	    private Long id;
+	    private int id;
 	    private PatientDTO patient;
 	    private String dermatologist;
 	    private LocalDateTime appointmentDate;
@@ -15,7 +15,7 @@ public class AppointmentDTO {
 			super();
 		}
 
-		public AppointmentDTO(Long id, PatientDTO patient, String dermatologist, LocalDateTime appointmentDate,
+		public AppointmentDTO(int id, PatientDTO patient, String dermatologist, LocalDateTime appointmentDate,
 			double registrationFee) {
 			super();
 			this.id = id;
@@ -24,10 +24,10 @@ public class AppointmentDTO {
 			this.appointmentDate = appointmentDate;
 			this.registrationFee = registrationFee;
 		}
-		public Long getId() {
+		public int getId() {
 			return id;
 		}
-		public void setId(Long id) {
+		public void setId(int id) {
 			this.id = id;
 		}
 		public PatientDTO getPatient() {
