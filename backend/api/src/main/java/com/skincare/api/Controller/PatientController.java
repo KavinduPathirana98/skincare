@@ -10,6 +10,7 @@ import com.skincare.api.IService.IPatientService;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
 @RequestMapping("/api/patients")
 public class PatientController {
 
@@ -77,7 +78,7 @@ public class PatientController {
 
 	//Find User By ID
 	@GetMapping("/{id}")
-	public ResponseDTO findUserById(@PathVariable("id") int id) {
+	public ResponseDTO findPatientById(@PathVariable("id") int id) {
 
 		try {
 			PatientDTO patientById = service.getPatientById(id);
