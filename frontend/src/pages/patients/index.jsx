@@ -4,6 +4,7 @@ import {
   getAllPatients,
   savePatient,
   searchPatientByID,
+  updatePatient,
 } from "../../service";
 import { Button, Col, Form, Input, Row, Space, Table, Tag } from "antd";
 import "antd/dist/antd";
@@ -17,6 +18,7 @@ import {
   insertString,
   patientsRoute,
   succMsgDelete,
+  succMsgUpdate,
   UpdateKey,
 } from "../../constants";
 import { toast } from "react-toastify";
@@ -37,6 +39,7 @@ const Patients = () => {
   const [modal, setModal] = useState(false);
   const [header, setHeader] = useState(AddKey);
   const [modalState, setModalState] = useState(AddKey);
+  const [updatePatientID, setUpdatePatientID] = useState();
   const [form] = Form.useForm();
 
   const columns = [
@@ -88,7 +91,7 @@ const Patients = () => {
         return (
           <tr>
             <td>
-              <Button onClick={() => toggle(UpdateKey)}>
+              <Button onClick={() => toggle(UpdateKey, record)}>
                 <EditOutlined />
               </Button>
             </td>
@@ -115,7 +118,21 @@ const Patients = () => {
   };
 
   //Calling update from service
-  const update = () => {};
+  const update = async () => {
+    try {
+      const formValues = await form.validateFields();
+      formValues.id = updatePatientID;
+      updatePatient(formValues)
+        .then((response) => {
+          if (response.data.responseCode == 1) {
+            getall();
+            toast.success(succMsgUpdate);
+          } else {
+          }
+        })
+        .catch((err) => toast.error(errMsgUpdate));
+    } catch (err) {}
+  };
   //Calling delete from service
   const deletefromID = (id) => {
     deletePatient(id)
@@ -135,8 +152,6 @@ const Patients = () => {
 
     searchPatientByID(keyword)
       .then((response) => {
-        console.log("Response:", response.data.data); // Check what response contains
-
         const patientsData = response.data.data;
 
         // Check if patientsData is an array and set it, or set it to an empty array if not
@@ -145,7 +160,6 @@ const Patients = () => {
         } else {
           let x = [patientsData];
           setPatients(x); // Handle unexpected response format
-          // toast.error("Invalid data format received");
         }
       })
       .catch((err) => {
@@ -161,17 +175,26 @@ const Patients = () => {
         .then((response) => {
           if (response.data.responseCode == 1) {
             getall();
+            toast.success(succMsgDelete);
           } else {
           }
         })
         .catch((err) => toast.error(errMsgUpdate));
     } catch (err) {}
   };
-  const toggle = (key) => {
-    console.log(key);
+  const toggle = (key, record) => {
+    if (record) {
+      setUpdatePatientID(record.id);
+      form.setFieldValue("fName", record.fName);
+      form.setFieldValue("lName", record.lName);
+      form.setFieldValue("nic", record.nic);
+      form.setFieldValue("phone", record.phone);
+      form.setFieldValue("email", record.email);
+    }
+
     setModalState(key);
     if (key === UpdateKey) {
-      setHeader(UpdateKey + " Patient");
+      setHeader(UpdateKey + " Patient  ( ID:" + record.id + ")");
     } else {
       setHeader(insertString + " Patient");
     }
@@ -185,6 +208,7 @@ const Patients = () => {
     if (modalState == AddKey) {
       insert();
     } else {
+      update();
     }
   };
   const [keyword, setKeyword] = useState("");
@@ -227,9 +251,7 @@ const Patients = () => {
         <Col md={3}></Col>
       </Row>
       <Modal isOpen={modal} toggle={() => toggle(AddKey)} size="md">
-        <ModalHeader toggle={() => toggle(AddKey)}>
-          {header} Patient
-        </ModalHeader>
+        <ModalHeader toggle={() => toggle(AddKey)}>{header}</ModalHeader>
         <ModalBody>
           <Form form={form}>
             <Row>

@@ -10,3 +10,4 @@ export const errMsgGet = "Error while retrieving data !!";
 export const errMsgDelete = "Error while deleting data !!";
 export const errMsgUpdate = "Error while updating data !!";
 export const succMsgDelete = "Successfully deleted data!!";
+export const succMsgUpdate = "Successfully updated data!!";
