@@ -245,14 +245,20 @@ const Treatments = () => {
             <Row>
               <Col md={11}>
                 <Label>First Name</Label>
-                <Form.Item name={"treatmentName"}>
+                <Form.Item
+                  name={"treatmentName"}
+                  rules={[{ required: true, message: "Required" }]}
+                >
                   <Input type="text" />
                 </Form.Item>
               </Col>
               <Col md={2}></Col>
               <Col md={11}>
                 <Label>Price</Label>
-                <Form.Item name={"price"}>
+                <Form.Item
+                  name={"price"}
+                  rules={[{ required: true, message: "Required" }]}
+                >
                   <Input type="number" />
                 </Form.Item>
               </Col>
