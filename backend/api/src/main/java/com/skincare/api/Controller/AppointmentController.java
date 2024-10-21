@@ -1,8 +1,10 @@
 package com.skincare.api.Controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +19,7 @@ import com.skincare.api.IService.IAppointmentService;
 
 @RestController
 @RequestMapping("/api/appointments")
+@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
 public class AppointmentController {
 
 	@Autowired
@@ -99,4 +102,22 @@ public class AppointmentController {
 		}
 		
 	}
+	
+	   // New method to filter appointments by date
+    @GetMapping("/date/{date}")
+    public ResponseDTO findAppointmentsByDate(@PathVariable("date") String date) {
+        try {
+            // Parse the date string to LocalDate
+            LocalDateTime appointmentDate = LocalDateTime.parse(date);
+            List<AppointmentDTO> appointments = service.getAppointmentsByDate(appointmentDate);
+            
+            if (!appointments.isEmpty()) {
+                return new ResponseDTO(1, "Success", appointments);
+            } else {
+                return new ResponseDTO(1, "No appointments found for the given date", null);
+            }
+        } catch (Exception ex) {
+            return new ResponseDTO(0, "Error retrieving appointments", null);
+        }
+    }
 }

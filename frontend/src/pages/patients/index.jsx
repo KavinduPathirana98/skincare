@@ -79,7 +79,10 @@ const Patients = () => {
         return (
           <tr>
             <td>
-              <Button onClick={() => toggle(AddKey)}>
+              <Button
+                style={{ marginLeft: "15px" }}
+                onClick={() => toggle(AddKey)}
+              >
                 <PlusOutlined />
               </Button>
             </td>
@@ -138,7 +141,7 @@ const Patients = () => {
     deletePatient(id)
       .then((response) => {
         if (response.data.responseCode == 1) {
-          toast.success(succMsgDelete);
+          toast.success(succMsgUpdate);
           getall();
         } else {
           toast.error(errMsgDelete);
