@@ -23,6 +23,14 @@ public class Appointment {
 	    private String dermatologist;
 	    private LocalDateTime appointmentDate;
 	    private double registrationFee = 500.00;
+	    private boolean paid;
+	    
+		public boolean isPaid() {
+			return paid;
+		}
+		public void setPaid(boolean paid) {
+			this.paid = paid;
+		}
 		public int getId() {
 			return id;
 		}

@@ -36,7 +36,7 @@ public class InvoiceService implements IInvoiceService {
 								invoice.getAppointment().getPatient().getEmail(),
 								invoice.getAppointment().getPatient().getPhone()),
 						invoice.getAppointment().getDermatologist(), invoice.getAppointment().getAppointmentDate(),
-						invoice.getAppointment().getRegistrationFee()), invoice.getTreatmentCost(), invoice.getTax(),
+						invoice.getAppointment().getRegistrationFee(),invoice.getAppointment().isPaid()), invoice.getTreatmentCost(), invoice.getTax(),
 						invoice.getTotalAmount()));
 			});
 			return response;

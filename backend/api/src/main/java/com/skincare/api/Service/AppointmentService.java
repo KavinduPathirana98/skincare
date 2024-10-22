@@ -37,7 +37,7 @@ public class AppointmentService implements IAppointmentService {
 								appoint.getPatient().getEmail(),
 								appoint.getPatient().getPhone()), 
 						appoint.getDermatologist(), appoint.getAppointmentDate(),
-						appoint.getRegistrationFee()));
+						appoint.getRegistrationFee(),appoint.isPaid()));
 			});
 			return response;
 		} catch (Exception ex) {

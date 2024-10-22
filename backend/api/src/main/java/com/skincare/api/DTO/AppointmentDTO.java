@@ -9,6 +9,7 @@ public class AppointmentDTO {
 	    private String dermatologist;
 	    private LocalDateTime appointmentDate;
 	    private double registrationFee = 500.00;
+	    private boolean paid;
 	    
 	    
 		public AppointmentDTO() {
@@ -16,14 +17,24 @@ public class AppointmentDTO {
 		}
 
 		public AppointmentDTO(int id, PatientDTO patient, String dermatologist, LocalDateTime appointmentDate,
-			double registrationFee) {
+			double registrationFee,boolean paid) {
 			super();
 			this.id = id;
 			this.patient = patient;
 			this.dermatologist = dermatologist;
 			this.appointmentDate = appointmentDate;
 			this.registrationFee = registrationFee;
+			this.paid=paid;
 		}
+		
+		public boolean isPaid() {
+			return paid;
+		}
+
+		public void setPaid(boolean paid) {
+			this.paid = paid;
+		}
+
 		public int getId() {
 			return id;
 		}

@@ -9,7 +9,18 @@ import {
   searchAppointmentByID,
   updateAppointment,
 } from "../../service";
-import { Button, Col, Form, Input, Row, Select, Space, Table, Tag } from "antd";
+import {
+  Button,
+  Checkbox,
+  Col,
+  Form,
+  Input,
+  Row,
+  Select,
+  Space,
+  Table,
+  Tag,
+} from "antd";
 import "antd/dist/antd";
 import axios from "axios";
 import {
@@ -77,6 +88,17 @@ const Appoinments = () => {
       title: "Registration Fee",
       dataIndex: "registrationFee",
       key: "registrationFee",
+    },
+    {
+      title: "Paid",
+      render: (record) => {
+        return record.paid ? (
+          <Checkbox disabled={true} checked={true} />
+        ) : (
+          <Checkbox disabled={true} checked={false} />
+        );
+      },
+      key: "paid",
     },
     {
       align: "center",
@@ -236,6 +258,7 @@ const Appoinments = () => {
       form.setFieldValue("dermatologist", record.dermatologist);
       form.setFieldValue("patient", record.patient.id);
       form.setFieldValue("appointmentDate", record.appointmentDate);
+      form.setFieldValue("paid", record.paid);
     }
 
     setModalState(key);
@@ -377,6 +400,13 @@ const Appoinments = () => {
                   rules={[{ required: true, message: "Required" }]}
                 >
                   <Input type="datetime-local" />
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <Form.Item valuePropName="checked" name={"paid"}>
+                  <Checkbox>Paid</Checkbox>
                 </Form.Item>
               </Col>
             </Row>
