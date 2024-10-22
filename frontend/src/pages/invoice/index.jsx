@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import {
   deleteInvoice,
   getAllAppointments,
@@ -33,9 +33,15 @@ import {
   ModalHeader,
 } from "reactstrap";
 import { render } from "@testing-library/react";
-import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  FilePdfOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
 import { useForm } from "antd/es/form/Form";
 import moment from "moment";
+import Print from "./print";
 
 const Invoice = () => {
   const [invoices, setInvoices] = useState([]);
@@ -46,22 +52,48 @@ const Invoice = () => {
   const [modalState, setModalState] = useState(AddKey);
   const [updateInvoiceID, setUpdateInvoiceID] = useState();
   const [form] = Form.useForm();
-
+  const [inID, setInID] = useState();
   const columns = [
     {
-      title: "ID",
+      title: "Invoice No",
       dataIndex: "id",
       key: "id",
     },
     {
-      title: "Invoice Name",
-      dataIndex: "InvoiceName",
-      key: "InvoiceName",
+      title: "Name",
+      render: (record) =>
+        `${record.appointment.patient.fName} ${record.appointment.patient.lName}`,
+      key: "name",
     },
     {
-      title: "Price",
-      dataIndex: "price",
-      key: "price",
+      title: "Appointment No",
+      render: (record) => `${record.appointment.id} `,
+      key: "appointmentNo",
+    },
+    {
+      title: "Dermatologist",
+      render: (record) => `${record.appointment.dermatologist} `,
+      key: "dermatologist",
+    },
+    {
+      title: "Registration Fee",
+      render: (record) => `500`,
+      key: "reg",
+    },
+    {
+      title: "TreatmentCost",
+      render: (record) => `${record.treatmentCost} `,
+      key: "treatmentCost",
+    },
+    {
+      title: "Tax",
+      render: (record) => `2.5%`,
+      key: "tax",
+    },
+    {
+      title: "Total",
+      render: (record) => `${record.totalAmount} `,
+      key: "total",
     },
 
     {
@@ -85,8 +117,8 @@ const Invoice = () => {
         return (
           <tr>
             <td>
-              <Button onClick={() => toggle(UpdateKey, record)}>
-                <EditOutlined />
+              <Button onClick={() => setInID(record)}>
+                <FilePdfOutlined />
               </Button>
             </td>
             <td>
@@ -104,6 +136,8 @@ const Invoice = () => {
       dataIndex: "actions",
     },
   ];
+  const invoiceRef = useRef();
+
   //Calling getall from service
   const getall = () => {
     getAllInvoices()
@@ -176,6 +210,18 @@ const Invoice = () => {
   const insert = async () => {
     try {
       const formValues = await form.validateFields();
+      const filteredTreatment = treatments.filter((item) => {
+        return item.id === formValues.treatment;
+      });
+      const filteredAppointment = appointment.filter((item) => {
+        return item.id === formValues.appointment;
+      });
+      formValues.appointment = filteredAppointment[0];
+      formValues.treatment = filteredTreatment[0];
+      formValues.treatmentCost = Number(
+        parseFloat(formValues.treatmentCost).toFixed(2)
+      );
+      console.log(formValues);
       saveInvoice(formValues)
         .then((response) => {
           if (response.data.responseCode == 1) {
@@ -192,16 +238,15 @@ const Invoice = () => {
     const price = treatments.filter((item) => {
       return item.id === id;
     });
-    form.setFieldValue("totalCost", parseFloat(price[0].price).toFixed(2));
-    console.log(
-      parseFloat(form.getFieldValue("tax")).toFixed(2) + Number(100).toFixed(2)
-    );
+    form.setFieldValue("treatmentCost", parseFloat(price[0].price).toFixed(2));
+
     form.setFieldValue(
       "totalAmount",
       (parseFloat(price[0].price).toFixed(2) *
         (Number(parseFloat(form.getFieldValue("tax").toFixed(2))) +
           Number(parseFloat("100").toFixed(2)))) /
-        100
+        100 +
+        500
     );
   };
   const toggle = (key, record) => {
@@ -358,7 +403,7 @@ const Invoice = () => {
               <Col md={11}>
                 <Label>Treatment Cost</Label>
                 <Form.Item
-                  name={"totalCost"}
+                  name={"treatmentCost"}
                   rules={[{ required: true, message: "Required" }]}
                 >
                   <Input type="number" disabled={true} />
@@ -400,6 +445,7 @@ const Invoice = () => {
           </Button>
         </ModalFooter>
       </Modal>
+      {inID ? <Print data={inID} /> : ""}
     </Fragment>
   );
 };
